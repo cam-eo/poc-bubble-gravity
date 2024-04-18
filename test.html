@@ -89,11 +89,7 @@
         var dy = bubble1.y - bubble2.y;
         var distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance < bubble1.radius + bubble2.radius) {
-          return true;
-        } else {
-          return false;
-        }
+        return distance < bubble1.radius + bubble2.radius;
       }
 
       // Function to handle collision response
@@ -132,11 +128,12 @@
           magnitude2 * Math.cos(angle2 - angle) * Math.sin(angle) +
           magnitude1 * Math.sin(angle1 - angle) * Math.sin(angle + Math.PI / 2);
 
-        // Update velocities
-        bubble1.dx = newVelocityX1;
-        bubble1.dy = newVelocityY1;
-        bubble2.dx = newVelocityX2;
-        bubble2.dy = newVelocityY2;
+        // Reduce velocities gradually to bring bubbles to a standstill
+        var friction = 0.02;
+        bubble1.dx = newVelocityX1 * (1 - friction);
+        bubble1.dy = newVelocityY1 * (1 - friction);
+        bubble2.dx = newVelocityX2 * (1 - friction);
+        bubble2.dy = newVelocityY2 * (1 - friction);
       }
 
       // Function to animate the bubbles
