@@ -134,6 +134,23 @@
         bubble1.dy = newVelocityY1 * (1 - friction);
         bubble2.dx = newVelocityX2 * (1 - friction);
         bubble2.dy = newVelocityY2 * (1 - friction);
+
+        // If velocities fall below a threshold, set them to zero to stop movement
+        var velocityThreshold = 0.1;
+        if (
+          Math.abs(bubble1.dx) < velocityThreshold &&
+          Math.abs(bubble1.dy) < velocityThreshold
+        ) {
+          bubble1.dx = 0;
+          bubble1.dy = 0;
+        }
+        if (
+          Math.abs(bubble2.dx) < velocityThreshold &&
+          Math.abs(bubble2.dy) < velocityThreshold
+        ) {
+          bubble2.dx = 0;
+          bubble2.dy = 0;
+        }
       }
 
       // Function to animate the bubbles
