@@ -50,6 +50,14 @@
         }
       }
 
+      function createBubbleDrop() {
+        // Create rectangle in the center top to drop bubble
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(011, 234, 234, 0.6)";
+        ctx.fillRect(canvas.width / 2 - 75, 10, 150, 80);
+        ctx.closePath();
+      }
+
       // Create bubble collection
       createBubbleCollection();
 
@@ -75,6 +83,18 @@
         if (draggableBubble) {
           draggableBubble.x = event.clientX - canvas.offsetLeft;
           draggableBubble.y = event.clientY - canvas.offsetTop;
+
+          // Check if bubble dropped inside box
+          const mousePositionX = event.clientX - canvas.offsetLeft;
+          const mousePositionY = event.clientY - canvas.offsetTop;
+
+          if (
+            mousePositionY < 80 &&
+            mousePositionX < canvas.width / 2 + 75 &&
+            mousePositionX > canvas.width / 2 - 75
+          ) {
+            console.log("IN");
+          }
         }
       });
 
@@ -129,7 +149,7 @@
           magnitude1 * Math.sin(angle1 - angle) * Math.sin(angle + Math.PI / 2);
 
         // Reduce velocities gradually to bring bubbles to a standstill
-        var friction = 0.02;
+        var friction = 0.2;
         bubble1.dx = newVelocityX1 * (1 - friction);
         bubble1.dy = newVelocityY1 * (1 - friction);
         bubble2.dx = newVelocityX2 * (1 - friction);
@@ -156,7 +176,10 @@
       // Function to animate the bubbles
       function animate() {
         requestAnimationFrame(animate);
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        createBubbleDrop();
 
         // Draw each bubble
         bubbles.forEach(function (bubble) {
